@@ -32,8 +32,8 @@ def set_default_currency(code="XXX"):
 class IncorrectMoneyInputError(exceptions.Exception):
 	def __init__(self):
 		return
-	def __str__(self):
-		return "Incorrectly formatted monetary input!"
+	def __unicode__(self):
+		return u"Incorrectly formatted monetary input"
 
 class Money:
 	amount = Decimal("0.0")
@@ -48,6 +48,10 @@ class Money:
 			if not isinstance(currency, Currency):
 				currency = CURRENCY[str(currency).upper()]
 			self.currency = currency
+
+	def __unicode__(self):
+		return unicode(self.amount)
+
 	def __repr__(self):
 		return '%s %5.2f' % (self.currency, self.amount)
 	def __pos__(self):
