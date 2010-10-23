@@ -9,11 +9,14 @@ class Currency:
 	name = ""
 	numeric = "999"
 	exchange_rate = Decimal("1.0")
-	def __init__(self, code="", numeric="999", name="", countries=[]):
+	def __init__(self, code="", numeric="999", name="", symbol=u"", decimals=2, countries=[]):
 		self.code = code
 		self.numeric = numeric
 		self.name = name
+		self.symbol = symbol
+		self.decimals = decimals
 		self.countries = countries
+
 	def __repr__(self):
 		return self.code
 	def set_exchange_rate(self, rate):
@@ -190,6 +193,7 @@ class Money:
 #
 # Definitions of ISO 4217 Currencies
 # Source: http://www.iso.org/iso/support/faqs/faqs_widely_used_standards/widely_used_standards_other/currency_codes/currency_codes_list-1.htm
+# Symbols: http://www.xe.com/symbols.php
 #
 
 CURRENCY['BZD'] = Currency(code='BZD', numeric='084', name='Belize Dollar', countries=['BELIZE'])
@@ -258,7 +262,7 @@ CURRENCY['ZWD'] = Currency(code='ZWD', numeric='716', name='Zimbabwe Dollar', co
 CURRENCY['MWK'] = Currency(code='MWK', numeric='454', name='Kwacha', countries=['MALAWI'])
 CURRENCY['BDT'] = Currency(code='BDT', numeric='050', name='Taka', countries=['BANGLADESH'])
 CURRENCY['KWD'] = Currency(code='KWD', numeric='414', name='Kuwaiti Dinar', countries=['KUWAIT'])
-CURRENCY['EUR'] = Currency(code='EUR', numeric='978', name='Euro', countries=['ANDORRA', 'AUSTRIA', 'BELGIUM', 'FINLAND', 'FRANCE', 'FRENCH GUIANA', 'FRENCH SOUTHERN TERRITORIES', 'GERMANY', 'GREECE', 'GUADELOUPE', 'IRELAND', 'ITALY', 'LUXEMBOURG', 'MARTINIQUE', 'MAYOTTE', 'MONACO', 'MONTENEGRO', 'NETHERLANDS', 'PORTUGAL', 'R.UNION', 'SAINT PIERRE AND MIQUELON', 'SAN MARINO', 'SLOVENIA', 'SPAIN'])
+CURRENCY['EUR'] = Currency(code='EUR', numeric='978', name='Euro', symbol=u"€", countries=['ANDORRA', 'AUSTRIA', 'BELGIUM', 'FINLAND', 'FRANCE', 'FRENCH GUIANA', 'FRENCH SOUTHERN TERRITORIES', 'GERMANY', 'GREECE', 'GUADELOUPE', 'IRELAND', 'ITALY', 'LUXEMBOURG', 'MARTINIQUE', 'MAYOTTE', 'MONACO', 'MONTENEGRO', 'NETHERLANDS', 'PORTUGAL', 'R.UNION', 'SAINT PIERRE AND MIQUELON', 'SAN MARINO', 'SLOVENIA', 'SPAIN'])
 CURRENCY['CHF'] = Currency(code='CHF', numeric='756', name='Swiss Franc', countries=['LIECHTENSTEIN'])
 CURRENCY['XAG'] = Currency(code='XAG', numeric='961', name='Silver', countries=[])
 CURRENCY['SRD'] = Currency(code='SRD', numeric='968', name='Surinam Dollar', countries=['SURINAME'])
@@ -267,10 +271,10 @@ CURRENCY['PEN'] = Currency(code='PEN', numeric='604', name='Nuevo Sol', countrie
 CURRENCY['KPW'] = Currency(code='KPW', numeric='408', name='North Korean Won', countries=['KOREA'])
 CURRENCY['SGD'] = Currency(code='SGD', numeric='702', name='Singapore Dollar', countries=['SINGAPORE'])
 CURRENCY['TWD'] = Currency(code='TWD', numeric='901', name='New Taiwan Dollar', countries=['TAIWAN'])
-CURRENCY['USD'] = Currency(code='USD', numeric='840', name='US Dollar', countries=['AMERICAN SAMOA', 'BRITISH INDIAN OCEAN TERRITORY', 'ECUADOR', 'GUAM', 'MARSHALL ISLANDS', 'MICRONESIA', 'NORTHERN MARIANA ISLANDS', 'PALAU', 'PUERTO RICO', 'TIMOR-LESTE', 'TURKS AND CAICOS ISLANDS', 'UNITED STATES MINOR OUTLYING ISLANDS', 'VIRGIN ISLANDS (BRITISH)', 'VIRGIN ISLANDS (U.S.)'])
+CURRENCY['USD'] = Currency(code='USD', numeric='840', name='US Dollar', symbol=u"$", decimals=2, countries=['AMERICAN SAMOA', 'BRITISH INDIAN OCEAN TERRITORY', 'ECUADOR', 'GUAM', 'MARSHALL ISLANDS', 'MICRONESIA', 'NORTHERN MARIANA ISLANDS', 'PALAU', 'PUERTO RICO', 'TIMOR-LESTE', 'TURKS AND CAICOS ISLANDS', 'UNITED STATES MINOR OUTLYING ISLANDS', 'VIRGIN ISLANDS (BRITISH)', 'VIRGIN ISLANDS (U.S.)'])
 CURRENCY['BGN'] = Currency(code='BGN', numeric='975', name='Bulgarian Lev', countries=['BULGARIA'])
 CURRENCY['MAD'] = Currency(code='MAD', numeric='504', name='Moroccan Dirham', countries=['MOROCCO', 'WESTERN SAHARA'])
-CURRENCY['XXX'] = Currency(code='XXX', numeric='999', name='The codes assigned for transactions where no currency is involved are:', countries=[])
+CURRENCY['XXX'] = Currency(code='XXX', numeric='999', name='XXX', countries=[])
 CURRENCY['SAR'] = Currency(code='SAR', numeric='682', name='Saudi Riyal', countries=['SAUDI ARABIA'])
 CURRENCY['AUD'] = Currency(code='AUD', numeric='036', name='Australian Dollar', countries=['AUSTRALIA', 'CHRISTMAS ISLAND', 'COCOS (KEELING) ISLANDS', 'HEARD ISLAND AND MCDONALD ISLANDS', 'KIRIBATI', 'NAURU', 'NORFOLK ISLAND', 'TUVALU'])
 CURRENCY['KYD'] = Currency(code='KYD', numeric='136', name='Cayman Islands Dollar', countries=['CAYMAN ISLANDS'])
@@ -291,7 +295,7 @@ CURRENCY['MKD'] = Currency(code='MKD', numeric='807', name='Denar', countries=['
 CURRENCY['SDG'] = Currency(code='SDG', numeric='938', name='Sudanese Pound', countries=['SUDAN'])
 CURRENCY['AED'] = Currency(code='AED', numeric='784', name='UAE Dirham', countries=['UNITED ARAB EMIRATES'])
 CURRENCY['JOD'] = Currency(code='JOD', numeric='400', name='Jordanian Dinar', countries=['JORDAN'])
-CURRENCY['JPY'] = Currency(code='JPY', numeric='392', name='Yen', countries=['JAPAN'])
+CURRENCY['JPY'] = Currency(code='JPY', numeric='392', name='Yen', symbol=u"¥", decimals=0, countries=['JAPAN'])
 CURRENCY['ZAR'] = Currency(code='ZAR', numeric='710', name='Rand', countries=['SOUTH AFRICA'])
 CURRENCY['HRK'] = Currency(code='HRK', numeric='191', name='Croatian Kuna', countries=['CROATIA'])
 CURRENCY['AOA'] = Currency(code='AOA', numeric='973', name='Kwanza', countries=['ANGOLA'])
@@ -329,7 +333,7 @@ CURRENCY['GEL'] = Currency(code='GEL', numeric='981', name='Lari', countries=['G
 CURRENCY['ILS'] = Currency(code='ILS', numeric='376', name='New Israeli Sheqel', countries=['ISRAEL'])
 CURRENCY['HUF'] = Currency(code='HUF', numeric='348', name='Forint', countries=['HUNGARY'])
 CURRENCY['UAH'] = Currency(code='UAH', numeric='980', name='Hryvnia', countries=['UKRAINE'])
-CURRENCY['RUB'] = Currency(code='RUB', numeric='643', name='Russian Ruble', countries=['RUSSIAN FEDERATION'])
+CURRENCY['RUB'] = Currency(code='RUB', numeric='643', name='Russian Ruble', symbol=u"руб", countries=['RUSSIAN FEDERATION'])
 CURRENCY['IRR'] = Currency(code='IRR', numeric='364', name='Iranian Rial', countries=['IRAN'])
 CURRENCY['BMD'] = Currency(code='BMD', numeric='060', name='Bermudian Dollar (customarily known as Bermuda Dollar)', countries=['BERMUDA'])
 CURRENCY['MGA'] = Currency(code='MGA', numeric='969', name='Malagasy Ariary', countries=['MADAGASCAR'])
