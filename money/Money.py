@@ -43,7 +43,7 @@ class Money:
 	currency = DEFAULT_CURRENCY
 	def __init__ (self, amount=Decimal("0.0"), currency=None):
 		if not isinstance(amount, Decimal):
-			amount = Decimal(str(amount))
+			amount = Decimal(str(amount or 0))
 		self.amount = amount
 		if not currency:
 			self.currency = DEFAULT_CURRENCY
@@ -122,7 +122,7 @@ class Money:
 	def __eq__(self, other):
 		if isinstance(other, Money):
 			return (self.amount == other.amount) and (self.currency == other.currency)
-		return (self.amount == Decimal(str(other)))
+		return (self.amount == Decimal(str(other or 0)))
 	def __ne__(self, other):
 		result = self.__eq__(other)
 		if result is NotImplemented:
