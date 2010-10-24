@@ -144,3 +144,14 @@ class MoneyField(models.DecimalField):
         defaults = {'form_class': forms.MoneyField}
         defaults.update(kwargs)
         return super(MoneyField, self).formfield(**defaults)
+
+
+# South introspection rules
+# (see http://south.aeracode.org/docs/customfields.html#extending-introspection)
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ["^money\.contrib\.django.\models\.fields\.MoneyField"])
+    add_introspection_rules([], ["^money\.contrib\.django.\models\.fields\.CurrencyField"])
+except ImportError:
+    # South isn't installed
+    pass
