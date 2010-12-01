@@ -4,6 +4,25 @@ from money.tests.models import Entity, Entity_0_USD, Entity_USD
 from money.contrib.django.models.fields import NotSupportedLookup
 from money import Money, CURRENCY
 
+
+class MoneyTestCase(TestCase):
+    """
+    Tests of the Money class itself. These should probably be moved into a
+    runnable, non-django test script
+    """
+    def testEquality(self):
+        ten_bucks = Money(10, 'USD')
+        a_hamilton = Money(10, 'USD')
+        nada = Money(0, 'USD')
+
+        # Scalars cannot be compared to Money class
+        self.assertFalse(ten_bucks == 10)
+        self.assertFalse(nada == 0)
+
+        # Money is equal to money
+        self.assertTrue(ten_bucks == a_hamilton)
+
+
 class MoneyFieldTestCase(TestCase):
 
     def setUp(self):

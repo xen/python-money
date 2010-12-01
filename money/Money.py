@@ -122,7 +122,8 @@ class Money:
     def __eq__(self, other):
         if isinstance(other, Money):
             return (self.amount == other.amount) and (self.currency == other.currency)
-        return (self.amount == Decimal(str(other or 0)))
+        return False
+
     def __ne__(self, other):
         result = self.__eq__(other)
         if result is NotImplemented:
