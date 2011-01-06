@@ -11,10 +11,10 @@ class TestForm(forms.Form):
 
 
 #ModelForm
-from django_test.models import Entity    
+from django_test.models import TestMoneyModel
 class TestModelForm(forms.ModelForm):
     class Meta:
-        model = Entity
+        model = TestMoneyModel
 
 
 
