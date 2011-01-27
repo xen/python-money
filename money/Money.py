@@ -122,6 +122,9 @@ class Money:
     def __eq__(self, other):
         if isinstance(other, Money):
             return (self.amount == other.amount) and (self.currency == other.currency)
+        # Allow comparison to 0
+        if (other == 0) and (self.amount == 0):
+            return True
         return False
 
     def __ne__(self, other):
