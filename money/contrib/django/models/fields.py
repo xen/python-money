@@ -76,6 +76,8 @@ class MoneyField(models.DecimalField):
     def __init__(self, verbose_name=None, name=None,
                  max_digits=None, decimal_places=None,
                  default=None, default_currency=None, blank=True, **kwargs):
+        # We add the currency field except when using frozen south orm. See introspection rules below.
+        self.add_currency_field = not kwargs.pop('no_currency_field', False)
         if isinstance(default, Money):
             self.default_currency = default.currency
         self.default_currency = default_currency
@@ -102,10 +104,10 @@ class MoneyField(models.DecimalField):
         return value
 
     def contribute_to_class(self, cls, name):
-        c_field_name = currency_field_name(name)
-        c_field = CurrencyField(max_length=3, default=self.default_currency, editable=False)
-        c_field.creation_counter = self.creation_counter
-        cls.add_to_class(c_field_name, c_field)
+        if self.add_currency_field:
+            c_field = CurrencyField(max_length=3, default=self.default_currency, editable=False)
+            c_field.creation_counter = self.creation_counter+1
+            cls.add_to_class(currency_field_name(name), c_field)
 
         super(MoneyField, self).contribute_to_class(cls, name)
         setattr(cls, self.name, MoneyFieldProxy(self))
@@ -150,8 +152,26 @@ class MoneyField(models.DecimalField):
 # (see http://south.aeracode.org/docs/customfields.html#extending-introspection)
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^money\.contrib\.django.\models\.fields\.MoneyField"])
-    add_introspection_rules([], ["^money\.contrib\.django.\models\.fields\.CurrencyField"])
+    # South must know if a field was dynamically added to the class when it freezes it. We pass
+    # this in as a parameter to the field when it is created. The 'add_currency_field' attribute
+    # is normally True in a MoneyField. This means that 'no_currency_field' is True when frozen.
+    #
+    # See: http://south.aeracode.org/ticket/327
+    # See: https://bitbucket.org/carljm/django-markitup/changeset/eb788c807dd8
+    # See: http://south.aeracode.org/docs/customfields.html
+    add_introspection_rules(
+        patterns=["^money\.contrib\.django.\models\.fields\.MoneyField"],
+        rules=[
+            (   (MoneyField,),
+                [],
+                {'no_currency_field': ('add_currency_field', {})}
+            )
+        ]
+    )
+    add_introspection_rules(
+        patterns=["^money\.contrib\.django.\models\.fields\.CurrencyField"],
+        rules=[]
+    )
 except ImportError:
     # South isn't installed
     pass
