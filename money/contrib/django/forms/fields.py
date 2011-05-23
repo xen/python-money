@@ -4,6 +4,10 @@ from widgets import CurrencySelectWidget
 from money import Money, CURRENCY
 
 class MoneyField(forms.MultiValueField):
+    """
+    A MultiValueField to represent both the quantity of money and the currency
+    """
+
     def __init__(self, choices=None, decimal_places=2, max_digits=12, *args, **kwargs):
         # Note that we catch args and kwargs that must only go to one field
         # or the other. The rest of them pass onto the decimal field.
@@ -27,3 +31,4 @@ class MoneyField(forms.MultiValueField):
         if data_list:
             return Money(*data_list)
         return None
+

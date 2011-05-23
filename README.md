@@ -12,6 +12,8 @@ You can install this project directly from the git repository using pip:
 
     $ pip install -e git+http://github.com/poswald/python-money.git@0.0.1#egg=python-money
 
+You do not have to specify the version number but it might be a good idea.
+
 Usage
 =====
 
@@ -120,7 +122,7 @@ postgresql it might look like this:
     price          | numeric(12,2)          | not null default NULL::numeric
     price_currency | character varying(3)   | not null
 
-The value you get from your model will be a Money class:
+The value you get from your model will be a `Money` class:
 
     thing = Thing.objects.get(id=123)
     print repr(thing.price)
@@ -129,8 +131,7 @@ The value you get from your model will be a Money class:
 
 ### Form Field
 
-The form field used by the MoneyField is also called MoneyField
-
+The form field used by the `models.MoneyField` is also called `MoneyField` in
 
 
 ### Running Django Tests
@@ -148,11 +149,11 @@ Run them with the manage command from your application:
 
     $ ./manage.py test money
     Creating test database 'default'...
-    
+
     ...
-    
+
     Ran 8 tests in 0.445s
-    
+
     OK
     Destroying test database 'default'...
     $
@@ -162,10 +163,19 @@ Run them with the manage command from your application:
 TODO
 ====
 
-* Add more unicode symbols to Currency class
-* Add number of decimal places to all Currencies
+* Add more currency symbols to Currency class
+* Add number of decimal places to all Currencies. Who wants to help? :-)
 * Change the addition operation so that it raises an Exception rather
 than implicitly convert the value
 * Add a convert method to explicitly convert using the exchange rate.
 * Division of money should probably raise a custom error instead of assert on currency mismatch
-* Division of Money should return money instead of decimal
+* Division of `Money` should return `Money` instead of `Decimal` type
+
+CHANGELOG
+===
+
+* Version 0.2.0
+    - Fixed an issue with the South introspection rule for MoneyField similar to [ South #327](http://south.aeracode.org/ticket/327) You will probably need to generate a new schema migration if you are upgrading.
+
+* Version 0.1.0
+    - Initial version
