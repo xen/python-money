@@ -48,7 +48,17 @@ for dirpath, dirnames, filenames in os.walk(start_dir):
 setup(
     name='python-money',
     version='0.2.1a',
-    packages=['money'],
+    packages=[
+        'money',
+        'money/contrib',
+        'money/contrib/django',
+        'money/contrib/django/forms',
+        'money/contrib/django/models',
+        'money/tests',
+    ],
+    package_data={
+        'money.tests': ['templates/*'],
+    },
     data_files=data_files,
     url='http://github.com/poswald/python-money',
     description='Primitives for working with money and currencies in Python',
