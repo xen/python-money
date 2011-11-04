@@ -47,8 +47,8 @@ for dirpath, dirnames, filenames in os.walk(start_dir):
 
 setup(
     name='python-money',
-    version=get_git_version(),
-    packages=packages,
+    version='0.2.1a',
+    packages=['money'],
     data_files=data_files,
     url='http://github.com/poswald/python-money',
     description='Primitives for working with money and currencies in Python',
