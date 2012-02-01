@@ -47,7 +47,7 @@ for dirpath, dirnames, filenames in os.walk(start_dir):
 
 setup(
     name='python-money',
-    version='0.2.1a',
+    version='0.2.1b',
     packages=[
         'money',
         'money/contrib',
